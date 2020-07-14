@@ -1,10 +1,7 @@
-
-
-
-[
+var noteArray = [
     {
         "title": "Test title",
         "text": "Test text",
-        "id": 1
+        "id": uuidv1()
     }
 ]

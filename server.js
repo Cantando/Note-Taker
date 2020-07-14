@@ -2,6 +2,7 @@ const express = require("express");
 const { v1: uuidv1 } = require('uuid');
 const path = require("path");
 const fs = require("fs");
+const { log } = require("console");
 
 
 
@@ -21,11 +22,35 @@ app.get ("/notes",(req,res)=>{
 
 });
 
+// app.get("*",(req,res)=>{
+//    res.sendFile(path.join(__dirname,"public/index.html"));
+// });
+
 // api routes
 app.get ("/api/notes",(req,res)=>{
    fs.readFile("db/db.json",function (error, data){
       if (error) throw error;
       res.json(JSON.parse(data));
+   });
+});
+
+// post method
+app.post ("/api/notes",(req,res)=>{
+   const noteObj =req.body;
+   noteObj.id = uuidv1(); 
+   console.log(noteObj);
+   
+   fs.readFile("db/db.json",function (error, data){
+      if (error) throw errow;
+     var existingNotes = JSON.parse(data);
+     existingNotes.push(noteObj);
+     console.log(existingNotes);
+      
+      
+      fs.writeFile("db/db.json", JSON.stringify(existingNotes, null, "\t"),function(error){
+         if (error) throw error;
+         return res.json(existingNotes);
+      })
    });
 });
 
@@ -35,16 +60,9 @@ app.get ("/api/notes",(req,res)=>{
 
 
 
-app.post("/api/notes",(req,res)=>{
-   const noteObj =req.body;
-   noteObj.id = uuidv1(); 
-
-   console.log(noteObj);
 
 
 
-   
-})
 
 
 

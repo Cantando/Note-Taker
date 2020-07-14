@@ -21,7 +21,13 @@ app.get ("/notes",(req,res)=>{
 
 });
 
-
+// api routes
+app.get ("/api/notes",(req,res)=>{
+   fs.readFile("db/db.json",function (error, data){
+      if (error) throw error;
+      res.json(JSON.parse(data));
+   });
+});
 
 
 
